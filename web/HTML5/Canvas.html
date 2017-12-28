@@ -1,0 +1,541 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			html {
+				font: 100%/1.5 "Roboto", Verdana, sans-serif;
+				color: #3d464d;
+				background-color: #fff;
+				-webkit-font-smoothing: antialiased;
+				width: 100%;
+				overflow: hidden-x;
+				text-align: center;
+			}
+			@media (min-width: 650px) {
+				html {
+					height: 100%;
+				}
+				html:before {
+					content: '';
+					display: inline-block;
+					height: 100%;
+					vertical-align: middle;
+					margin-right: -0.25em;
+				}
+				body {
+					display: inline-block;
+					vertical-align: middle;
+					/*max-width: 38rem;*/
+				}
+			}
+			*,
+			:before,
+			:after {
+				margin: 0;
+				padding: 0;
+				position: relative;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			input,
+			select,
+			button,
+			textarea {
+				/*-webkit-appearance: none;
+				-moz-appearance: none;
+				appearance: none;*/
+				font: inherit;
+				color: inherit;
+			}
+			h1,
+			.alpha {
+				margin-bottom: 1.5rem;
+				font-size: 3rem;
+				font-weight: 100;
+				line-height: 1;
+				letter-spacing: -.05em;
+			}
+			h2,
+			.beta {
+				margin-bottom: .75rem;
+				font-weight: 400;
+				font-size: 1.5rem;
+				line-height: 1;
+			}
+			h2 a {
+				text-decoration: none;
+			}
+			@media (min-width: 650px) {
+				.mega {
+					font-size: 6rem;
+					line-height: 1;
+				}
+			}
+			.subhead,
+			.meta {
+				color: #7b8993;
+			}
+			.promo {
+				text-align: center;
+			}
+			.undisplay {
+				display: none;
+			}
+			p,
+			hr,
+			form {
+				margin-bottom: 1.5rem;
+			}
+			hr {
+				border: none;
+				margin-top: -1px;
+				height: 1px;
+				background-color: #c0c8c9;
+				background-image: -webkit-linear-gradient(0deg, #fff, #c0c8c9, #fff);
+			}
+			a {
+				color: inherit;
+				text-decoration: underline;
+				-webkit-animation: hue 60s infinite linear;
+			}
+			a:hover {
+				color: #f35626;
+			}
+			.butt,
+			.input {
+				padding: .75rem;
+				margin: .375rem;
+				background-color: transparent;
+				border-radius: 4px;
+			}
+			.butt:focus,
+			.input:focus {
+				outline: none;
+			}
+			.butt {
+				border: 2px solid #f35626;
+				line-height: 1.375;
+				padding-left: 1.5rem;
+				padding-right: 1.5rem;
+				font-weight: 700;
+				color: #f35626;
+				cursor: pointer;
+				-webkit-animation: hue 60s infinite linear;
+			}
+			.butt_gary {
+				border: 2px solid #ccc;
+				color: #ccc;
+			}
+			.butt--primary {
+				background-color: #f35626;
+				color: #fff;
+			}
+			.input {
+				border: 1px solid #c0c8c9;
+				border-radius: 4px;
+			}
+			.input--dropdown {
+				background-image: url("img/ddown.png");
+				background-image: url("img/ddown.svg"), none;
+				background-repeat: no-repeat;
+				background-size: 1.5rem 1rem;
+				background-position: right center;
+			}
+			.wrap div {
+				float: left;
+				/*background: red;*/
+				
+				width: 500px;
+				height: 300px;
+				margin: 10px;
+			}
+			canvas {
+				z-index: 1;
+				border: 1px solid #c5c5c5;
+			}
+			textarea {
+				width: 500px;
+				height: 300px;
+				overflow: auto;
+				z-index: 1;
+				border: 1px solid #c5c5c5;
+				font: 14px "Courier New", Courier, monospace;
+				padding: 10px;
+			}
+			pre {
+				padding: 10px;
+				border: 0;
+				border: 1px dotted #785;
+				background: #f5f5f5;
+				width: 500px;
+				height: 300px;
+				text-align: left;
+				word-break: break-all;
+				overflow: auto;
+				display: block;
+				z-index: 1;
+			}
+			pre code {
+				color: #0000dd;
+			}
+			pre span {
+				color: #999;
+			}
+			pre span.code_comment {
+				color: #999;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header>
+			<h2 class="title"><a href="http://www.itbbb.com/html5/canvas.html" target="_blank">北北教你学Canvas</a></h2>
+			<div class="wrap">
+				<div>
+					<canvas id="itbbb_canvas" width="500px" height="300px"></canvas>
+				</div>
+				<div>
+					<!--<pre>self.canvas.lineWidth = 10; //线宽度 self.canvas.lineWidth = 10; //线宽度 self.canvas.lineWidth = 10; //线宽度 self.canvas.lineWidth = 10; //线宽度 self.canvas.lineWidth = 10; //线宽度 
+self.canvas.strokeStyle = "red"; //线颜色 
+self.canvas.beginPath(); 
+self.canvas.moveTo(10, 10); //起点坐标 
+self.canvas.lineTo(150, 50); //终点坐标 
+self.canvas.stroke();</pre>-->
+					<textarea id="txt_code"  style="white-space:nowrap; overflow:scroll;">
+					</textarea>
+				</div>
+			</div>
+		</header>
+		<main class="site__content island" role="content">
+			<div class="wrap">
+				<select class="input input--dropdown event-selectitems">
+					<optgroup label="Canvas基础">
+						<option value="lineTo">直线</option>
+						<option value="strokeRect">矩形</option>
+						<option value="arc">圆形</option>
+						<option value="arcTo">圆角</option>
+						<option value="CurveTo">贝塞尔曲线</option>
+						<option value="fullRect">敬请期待...</option>
+					</optgroup>
+				</select>
+				<button class="butt event_trigger">Do it!</button>
+				<button class="butt butt_gary event_clear">Clear</button>
+				<hr>
+				<p class="meta"><a href="http://www.itbbb.com/index.php/learn-canvas/" download="canvas">Canvas</a> or <a href="https://github.com/babyisun/JSFunction/">View on GitHub</a>
+				</p>
+				<p><small>更多内容请访问 <a href="//www.itbbb.com">IT-北北报</a>.</small>
+				</p>
+			</div>
+		</main>
+		<div id="data_coding" class="undisplay"><pre id="lineTo">/***直线***/
+self.canvas.lineWidth = 10; //线宽度
+self.canvas.strokeStyle = "red"; //线颜色
+									
+self.canvas.lineCap="butt";//默认。向线条的每个末端添加平直的边缘。
+self.canvas.beginPath();
+self.canvas.moveTo(100, 50); //起点坐标(x,y)
+self.canvas.lineTo(250, 50); //终点坐标(x,y)
+self.canvas.stroke();
+									
+self.canvas.lineCap="round";//向线条的每个末端添加圆形线帽。
+self.canvas.strokeStyle="yellow";
+self.canvas.beginPath();
+self.canvas.moveTo(100, 100); //起点坐标(x,y)
+self.canvas.lineTo(250, 100); //终点坐标(x,y)
+self.canvas.stroke();
+									
+self.canvas.lineCap="square";//向线条的每个末端添加正方形线帽。
+self.canvas.strokeStyle="#ccc";
+self.canvas.beginPath();
+self.canvas.moveTo(100, 150); //起点坐标(x,y)
+self.canvas.lineTo(250, 150); //终点坐标(x,y)
+self.canvas.stroke();</pre>
+			<pre id="strokeRect">/***矩形***/
+self.canvas.lineWidth = 3; //线宽度
+self.canvas.strokeStyle = "#000"; //线颜色
+self.canvas.beginPath();
+self.canvas.strokeRect(130, 30, 170, 140); //空心矩形1(x,y,width,height)
+//self.canvas.rect(30, 30,170, 140); //等同于矩形1(x,y,width,height)								
+//self.canvas.stroke();
+self.canvas.fillRect(130, 200, 170, 50); //实心矩形2(x,y,width,height)
+//self.canvas.rect(130,200,170,50);//等同于矩形2
+//self.canvas.fill();
+self.canvas.stroke();</pre>
+			<pre id="arc">/***圆形***/
+self.canvas.lineWidth = 2; //线宽度
+self.canvas.strokeStyle = "#ccc"; //线颜色
+self.canvas.beginPath();
+//arc(x,y,r,sAngle,eAngle,counterclockwise)
+//x	圆的中心的 x 坐标。
+//y	圆的中心的 y 坐标。
+//r	圆的半径。
+//sAngle	起始角，以弧度计。（弧的圆形的三点钟位置是 0 度）。
+//eAngle	结束角，以弧度计。
+//counterclockwise	可选。规定应该逆时针还是顺时针绘图。False = 顺时针，true = 逆时针								
+self.canvas.arc(200, 150, 100, 0, Math.PI * 2);
+self.canvas.stroke(); //空心圆
+
+//4分之3圆
+self.canvas.beginPath();
+self.canvas.arc(200, 150, 80, 0, Math.PI * 1.5);
+self.canvas.stroke();
+
+//实心圆
+self.canvas.fillStyle = "yellow"; //填充颜色
+self.canvas.lineWidth = 10; //线宽度
+self.canvas.strokeStyle = "#ccc"; //线颜色
+self.canvas.beginPath();
+self.canvas.arc(200, 150, 50, 0, 90 * Math.PI / 180, true); //逆时针
+self.canvas.stroke();//画线
+self.canvas.fill();//填充	
+</pre>
+			<pre id="arcTo">/***圆角***/
+self.canvas.beginPath();
+self.canvas.strokeStyle = "red";
+self.canvas.lineWidth = 2;
+self.canvas.moveTo(60, 40); //起始点(x,y)
+self.canvas.lineTo(140, 40); //移动到点(x,y)
+//弧线(x1,y1,x2,y2,radius)，见图
+self.canvas.arcTo(180, 40, 180, 80, 40); 
+self.canvas.lineTo(180, 160);
+self.canvas.stroke();
+//辅助线
+self.canvas.beginPath();
+self.canvas.strokeStyle = "#ccc";
+self.canvas.lineWidth = 1;
+self.canvas.moveTo(140, 40);
+self.canvas.lineTo(180, 40);
+self.canvas.lineTo(180, 80);
+self.canvas.stroke();
+//说明文字
+self.canvas.font = "18px 黑体";
+self.canvas.fillStyle = "#ccc";
+self.canvas.fillText("x1,y1", 185, 40); //fillText(text,x,y,[maxWidth]):
+self.canvas.fillText("x2,y2", 185, 80);	
+</pre>
+<pre id="CurveTo">self.canvas.beginPath();
+self.canvas.moveTo(100, 100);//起始点
+//二次贝塞尔曲线
+//quadraticCurveTo(cpx,cpy,x,y)
+//cpx,cpy控制点1坐标
+//x,y控制点2坐标
+self.canvas.quadraticCurveTo(20, 50, 200, 20);
+self.canvas.stroke();
+self.canvas.beginPath();
+self.canvas.moveTo(100, 250);//起始点
+//三次贝塞尔曲线
+//bezierCurveTo(cpx1,cpy1,cpx2,cpy2,endx,endy)
+//cpx1,cpy1控制点1坐标
+//cpx2,cpy2控制点2坐标
+//endx,endy结束点坐标
+self.canvas.bezierCurveTo(20, 150, 120, 150, 200, 180);
+self.canvas.stroke();
+
+//辅助点
+self.canvas.beginPath();
+self.canvas.fillStyle = "orange";
+self.canvas.arc(100, 100, 3, 0, 2 * Math.PI);//起始点
+self.canvas.arc(20, 50, 3, 0, 2 * Math.PI);//cpx,cpy
+self.canvas.arc(200, 20, 3, 0, 2 * Math.PI);//x,y
+self.canvas.arc(100, 250, 3, 0, 2 * Math.PI);//起始点2
+self.canvas.arc(20, 150, 3, 0, 2 * Math.PI);//cpx1,cpy1
+self.canvas.arc(120, 150, 3, 0, 2 * Math.PI);//cpx2,cpy2
+self.canvas.arc(200, 180, 3, 0, 2 * Math.PI);//endx,endy
+self.canvas.fill();
+
+//说明文字
+self.canvas.font = "18px黑体";
+self.canvas.fillStyle = "#ccc";
+self.canvas.fillText("cpx,cpy", 20, 45);//fillText(text,x,y,[maxWidth])
+self.canvas.fillText("x,y", 200, 15);
+self.canvas.fillText("起始点", 105, 250);
+//起始点2
+self.canvas.fillText("cpx1,cpy1", 25, 150);//cpx1,cpy1
+self.canvas.fillText("cpx2,cpy2", 125, 150);//cpx2,cpy2
+self.canvas.fillText("endx,endy", 205, 180);
+</pre>
+		</div>
+		<script src="http://code.jquery.com/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				var Canvas = function() {
+						var self = this;
+						self.eventArr = [];
+						self.canvas = $("#itbbb_canvas")[0].getContext("2d");
+						self.selectitem = $(".event-selectitems");
+						self.coding = $("#data_coding");
+						self.textare = $("#txt_code");
+						this.init = function() {
+							self.setEvent();
+							$(".event_trigger").click(function() {
+								var item = self.selectitem.val();
+								if (self.eventArr[item]) {
+									self.canvas.clearRect(0, 0, 500, 300);
+									self.eventArr[item]();
+									var _html = self.coding.find("#" + item).html();
+									self.textare.val(_html);
+								}
+							});
+							$(".event_clear").click(function() {
+								self.canvas.clearRect(0, 0, 500, 300);
+								self.textare.val("");
+							});
+						};
+						this.setEvent = function() {
+							//画线
+							self.eventArr["lineTo"] = function() {
+								self.canvas.lineWidth = 10; //线宽度
+								self.canvas.strokeStyle = "red"; //线颜色
+
+								self.canvas.lineCap = "butt"; //默认。向线条的每个末端添加平直的边缘。
+								self.canvas.beginPath();
+								self.canvas.moveTo(100, 50); //起点坐标(x,y)
+								self.canvas.lineTo(250, 50); //终点坐标(x,y)
+								self.canvas.stroke();
+
+								self.canvas.lineCap = "round"; //向线条的每个末端添加圆形线帽。
+								self.canvas.strokeStyle = "yellow";
+								self.canvas.beginPath();
+								self.canvas.moveTo(100, 100); //起点坐标(x,y)
+								self.canvas.lineTo(250, 100); //终点坐标(x,y)
+								self.canvas.stroke();
+
+								self.canvas.lineCap = "square"; //向线条的每个末端添加正方形线帽。
+								self.canvas.strokeStyle = "#ccc";
+								self.canvas.beginPath();
+								self.canvas.moveTo(100, 150); //起点坐标(x,y)
+								self.canvas.lineTo(250, 150); //终点坐标(x,y)
+								self.canvas.stroke();
+							};
+							//画矩形
+							self.eventArr["strokeRect"] = function() {
+								self.canvas.lineWidth = 3; //线宽度
+								self.canvas.strokeStyle = "#000"; //线颜色
+								self.canvas.beginPath();
+								self.canvas.strokeRect(130, 30, 170, 140); //空心矩形1(x,y,width,height)
+								//self.canvas.rect(30, 30,170, 140); //等同于矩形1(x,y,width,height)								
+								//self.canvas.stroke();
+								self.canvas.fillRect(130, 200, 170, 50); //实心矩形2(x,y,width,height)
+								//self.canvas.rect(130,200,170,50);//等同于矩形2
+								//self.canvas.fill();
+							};
+							//画圆
+							self.eventArr["arc"] = function() {
+								self.canvas.lineWidth = 2; //线宽度
+								self.canvas.strokeStyle = "#ccc"; //线颜色
+								self.canvas.beginPath();
+								//arc(x,y,r,sAngle,eAngle,counterclockwise)
+								//x	圆的中心的 x 坐标。
+								//y	圆的中心的 y 坐标。
+								//r	圆的半径。
+								//sAngle	起始角，以弧度计。（弧的圆形的三点钟位置是 0 度）。
+								//eAngle	结束角，以弧度计。
+								//counterclockwise	可选。规定应该逆时针还是顺时针绘图。False = 顺时针，true = 逆时针								
+								self.canvas.arc(200, 150, 100, 0, Math.PI * 2);
+								self.canvas.stroke(); //空心圆
+
+								//4分之3圆
+								self.canvas.beginPath();
+								self.canvas.arc(200, 150, 80, 0, Math.PI * 1.5);
+								self.canvas.stroke();
+
+								//实心圆
+								self.canvas.fillStyle = "yellow"; //填充颜色
+								self.canvas.lineWidth = 10; //线宽度
+								self.canvas.strokeStyle = "#ccc"; //线颜色
+								self.canvas.beginPath();
+								self.canvas.arc(200, 150, 50, 0, 90 * Math.PI / 180, true); //逆时针
+								self.canvas.stroke(); //画线
+								self.canvas.fill(); //填充
+							};
+
+							//圆角
+							self.eventArr["arcTo"] = function() {
+								self.canvas.beginPath();
+								self.canvas.strokeStyle = "red";
+								self.canvas.lineWidth = 2;
+								self.canvas.moveTo(60, 40); //起始点(x,y)
+								self.canvas.lineTo(140, 40); //移动到点(x,y)
+								self.canvas.arcTo(180, 40, 180, 80, 40); //弧线(x1,y1,x2,y2,radius)，见图
+								self.canvas.lineTo(180, 160);
+								self.canvas.stroke();
+								//辅助线
+								self.canvas.beginPath();
+								self.canvas.strokeStyle = "#ccc";
+								self.canvas.lineWidth = 1;
+								self.canvas.moveTo(140, 40);
+								self.canvas.lineTo(180, 40);
+								self.canvas.lineTo(180, 80);
+								self.canvas.stroke();
+								//说明文字
+								self.canvas.font = "18px 黑体";
+								self.canvas.fillStyle = "#ccc";
+								self.canvas.fillText("x1,y1", 185, 40); //fillText(text,x,y,[maxWidth])
+								self.canvas.fillText("x2,y2", 185, 80);
+							};
+							
+							self.eventArr["CurveTo"]=function(){
+								self.canvas.beginPath();
+								self.canvas.moveTo(100,100);//起始点
+								//二次贝塞尔曲线
+								//quadraticCurveTo(cpx,cpy,x,y)
+								//cpx,cpy控制点1坐标
+								//x,y控制点2坐标
+								self.canvas.quadraticCurveTo(20,50,200,20);								
+								self.canvas.stroke();
+								
+								self.canvas.beginPath();
+								self.canvas.moveTo(100,250);//起始点
+								//三次贝塞尔曲线
+								//bezierCurveTo(cpx1,cpy1,cpx2,cpy2,endx,endy)
+								//cpx1,cpy1控制点1坐标
+								//cpx2,cpy2控制点2坐标
+								//endx,endy结束点坐标
+								self.canvas.bezierCurveTo(20,150,120,150,200,180);
+								self.canvas.stroke();
+								//辅助点
+								self.canvas.beginPath();
+								self.canvas.fillStyle="orange";
+								self.canvas.arc(100,100, 3, 0, 2* Math.PI); //起始点
+								self.canvas.arc(20, 50, 3, 0, 2* Math.PI); //cpx,cpy
+								self.canvas.arc(200, 20, 3, 0, 2* Math.PI); //x,y
+								self.canvas.arc(100,250, 3, 0, 2* Math.PI); //起始点2
+								self.canvas.arc(20,150, 3, 0, 2* Math.PI); //cpx1,cpy1
+								self.canvas.arc(120,150, 3, 0, 2* Math.PI); //cpx2,cpy2
+								self.canvas.arc(200,180, 3, 0, 2* Math.PI); //endx,endy
+								self.canvas.fill();
+								
+								//说明文字
+								self.canvas.font = "18px 黑体";
+								self.canvas.fillStyle = "#ccc";
+								self.canvas.fillText("cpx,cpy", 20, 45); //fillText(text,x,y,[maxWidth])
+								self.canvas.fillText("x,y", 200, 15);
+								
+								self.canvas.fillText("起始点",105,250); //起始点2
+								self.canvas.fillText("cpx1,cpy1",25,150); //cpx1,cpy1
+								self.canvas.fillText("cpx2,cpy2",125,150); //cpx2,cpy2
+								self.canvas.fillText("endx,endy",205,180); //endx,endy
+							};
+						};
+					}
+					//初始化
+				new Canvas().init();
+			});
+		</script>
+
+
+
+		<div style="display: none;">
+			<script type="text/javascript">
+				var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+				document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F665ed821ce0c947e5ccb95d1dbed69a8' type='text/javascript'%3E%3C/script%3E"));
+			</script>
+			<script src="http://s23.cnzz.com/stat.php?id=5816290&web_id=5816290" language="JavaScript"></script>
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0150)http://www.17sucai.com/preview/17587/2013-10-08/%E6%89%8B%E6%9C%BA%E3%80%81PC%E7%BD%91%E9%A1%B5%E5%88%AE%E5%88%AE%E5%8D%A1%E6%95%88%E6%9E%9C/demo.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>canvas</title>
+</head>
+
+<body style="-webkit-user-select: none;"> 
+
+<canvas width="270" height="129" style="position: absolute; background-image: url(http://img.9588.com/images/9588_logo.gif); background-color: transparent;"> 
+
+	<!-- <div style="background:yellow;padding:10px">
+<div style="background:red;width:100px;height:100px;"></div>
+	</div> -->
+
+<script type="text/javascript">     
+(function(bodyStyle){         
+	bodyStyle.mozUserSelect = 'none';         
+	bodyStyle.webkitUserSelect = 'none';           
+	var img = new Image();         
+	var canvas = document.querySelector('canvas');         
+	canvas.style.backgroundColor='transparent';         
+	canvas.style.position = 'absolute';           
+	img.addEventListener('load',function(e){  
+		var ctx;
+		var w = img.width, h = img.height;             
+		var offsetX = canvas.offsetLeft, offsetY = canvas.offsetTop;             
+		var mousedown = false;               
+		function layer(ctx){                 
+			ctx.fillStyle = 'gray';                 
+			ctx.fillRect(0, 0, w, h);             
+		}   
+		function eventDown(e){                 
+			e.preventDefault();                 
+			mousedown=true;             
+		}   
+		function eventUp(e){                 
+			e.preventDefault();                 
+			mousedown=false;
+
+			var data = ctx.getImageData(0,0,w,h).data;  
+			for(var i=0,j=0;i<data.length;i+=4){
+        		if(data[i] && data[i+1] && data[i+2] && data[i+3]){
+            	j++;
+        		}
+    		}
+    		//当图层被擦除剩余50%时触发
+    		if(j<=w*h*0.5){
+        		ctx.clearRect(0,0,w,h);
+        		alert("颤抖吧，小渣渣！");
+    		}         
+		}               
+		function eventMove(e){                 
+			e.preventDefault();                 
+			if(mousedown){                     
+				if(e.changedTouches){                         
+					e=e.changedTouches[e.changedTouches.length-1];                     
+				}                     
+				var x = (e.clientX + document.body.scrollLeft || e.pageX) - offsetX || 0,                         
+				y = (e.clientY + document.body.scrollTop || e.pageY) - offsetY || 0;                     
+				with(ctx){                    
+					beginPath()                     
+					arc(x, y, 50, 0, Math.PI * 2);                         
+					fill();                     
+				}				
+			}             
+		}               
+		canvas.width=w;             
+		canvas.height=h;             
+		canvas.style.backgroundImage='url('+img.src+')';             
+		ctx=canvas.getContext('2d');             
+		ctx.fillStyle='transparent';             
+		ctx.fillRect(0, 0, w, h);             
+		layer(ctx);               
+		ctx.globalCompositeOperation = 'destination-out';               
+		canvas.addEventListener('touchstart', eventDown);             
+		canvas.addEventListener('touchend', eventUp);             
+		canvas.addEventListener('touchmove', eventMove);             
+		canvas.addEventListener('mousedown', eventDown);             
+		canvas.addEventListener('mouseup', eventUp);             
+		canvas.addEventListener('mousemove', eventMove);       
+	});
+	
+	img.src = 'model.jpeg';
+
+})(document.body.style);
+</script>
+	
+
+ 
+</canvas></body></html>

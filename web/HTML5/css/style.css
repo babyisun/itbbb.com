@@ -1,0 +1,74 @@
+body {font:1.4rem 'Microsoft Yahei','Verdana','Helvetica','Arial';background:#edf1f4;min-width:320px;color:#494949;}
+html,body,div,ul,li,input,textarea,p,dl,dt,dd{margin:0;padding:0;}
+header, nav, section, article, footer {padding: 0; margin: 0; display: block; } 
+.content {margin: 0 auto; width: 100%; height: auto; }
+.fl{float: left;}
+a{text-decoration: none;}
+button {display: inline-block; padding: 6px 12px; margin-bottom: 0; font-size: 14px; font-weight: 400; line-height: 1.42857143; text-align: center; white-space: nowrap; vertical-align: middle; -ms-touch-action: manipulation; touch-action: manipulation; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; background-image: none; border: 1px solid transparent; border-radius: 4px; color: #fff; width: 40%; }
+.icon{background: url(../img/icon.png) no-repeat 0px 0px transparent;width: width: 32px;height: 24px;display: inline-block;}
+.icon-my{background-position: 0px -155px;}
+.icon-user{background-position: 0px -98px;}
+.icon-msg{background-position: 0px -72px;}
+.icon-lock{background-position: 0px -51px;}
+.icon-mobile{background-position: 0px -22px;}
+.icon-help{background-position: 0px -142px;}
+
+.content header{position: relative;height: 50px;background: #0a8fc7;color: #fff;text-align: center;line-height: 50px;}
+.content .left,.content .right{width: 32px;height: 24px;display: inline-block;position: absolute;color:#fff;/*background-size: 80%;top:13px;*/}
+.content .left a,.content .right a{color:#fff;display: block;}
+.content .left{left: 20px; }
+.content .right{right: 20px;}
+.content .left:hover,.content .right:hover{/*background-color: #0986ba;*/ }
+
+.content main{height:190px; width: 96%; background: #fff;margin: 10px auto;border: 1px solid #efefef;box-shadow: 2px 2px 3px #ccc;}
+.content main .head{padding: 10px;height: 60px;overflow: hidden;}
+.content main .head .tx{position: absolute;}
+.content main .head .tx,.content main .head .con{ font-size: 15px;font-weight: bold;margin-right: 10px;height: 25px;line-height: 25px;}
+.content main .head .con{padding: 2px 0px 0px 57px;width: 100%;}
+.content main .head .tx img{height: 52px;width: 52px;}
+.content main .head .con .rmb{color: orange;font-size: 16px;}
+.content main .head .hfzh{float: right;background-color: #ebebeb;color: #cacaca; font-size: 12px;font-weight: normal;padding: 1px 5px;margin-right: 57px;}
+
+.content main .btns{text-align: center;}
+.content main .btns button{margin: 0px 10px;}
+.content main .btns .orange{background-color: #fe7610;}
+.content main .btns .blue{background-color: #0a8fc7;}
+
+.content main nav {margin-top: 20px;}
+.content main nav ul li{border: 1px solid #efefef;float: left;width: 25%;height: 55px;line-height: 55px; vertical-align: middle; text-align: center;display: block; box-sizing:border-box;}
+.content main nav ul li a{height: 28px;width: 30px;background-size: 82%;}
+
+.content .list{height:250px; width: 96%; background: #fff;margin: 10px auto;border: 1px solid #efefef;box-shadow: 2px 2px 3px #ccc;}
+.content .list ul {width: 94%;overflow: hidden;padding: 0px 5px;}
+.content .list ul li {width:100%;list-style: none; font-size: 15px;font-weight: bold; height: 45px;border-bottom: 1px solid #ccc;margin:10px 0px; line-height: 45px;padding-left: 50px;}
+.content .list ul li i{ height: 30px;width: 30px;position: absolute;left: 25px;background-size: 90%;margin-top: 11px;}
+.content .list ul li .rmb{color: #0a8fc7;float:right;margin-right: 59px;}
+
+
+@font-face {
+    font-family: 'iconfont';
+    src: url('../img/icon/iconfont.eot'); /* IE9*/
+    src: url('../img/icon/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../img/icon/iconfont.woff') format('woff'), /* chrome、firefox */
+    url('../img/icon/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('../img/icon/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:20px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+    color: #0A8FC7;
+    -webkit-transition: all 0.25s ease-out 0s;
+    -moz-transition: all 0.25s ease-out 0s;
+    transition: all 0.25s ease-out 0s;
+  }
+.iconfont:hover{color: blue;font-size: 24px;}
+
+.icon-liebiao:before { content: "\f0025"; }
+.icon-zhishi:before { content: "\f02a0"; }
+.icon-huafei:before { content: "\f003f"; }
+.icon-youjian:before { content: "\e694"; }
+.icon-suoding:before { content: "\e660"; }
+.icon-nanshangjia:before { content: "\f00d6"; }

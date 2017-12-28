@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="Changes.css" rel="stylesheet" />
+    <style type="text/css">
+        ._tips {
+            width: 200px;
+            background: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="dialog">
+        <div class="content">
+            <h1>Title</h1>
+            <a href="javascript:;" class="close">×</a>
+            <p>Just another dialog</p>
+        </div>
+        <div class="warn"><span>2</span>秒后关闭...</div>
+        <div class="actions">
+            <button class="cancel">Cancel</button>
+            <button class="button">Ok</button>
+        </div>
+    </div>
+
+    <div class="tip">
+        <div class="tips_arrow lb">
+            <em>◆</em>
+            <span>◆</span>
+        </div>
+        <div class="content">
+            <h1>箭头向上</h1>
+            <a href="javascript:;" class="close">×</a>
+            <p>欢迎访问<a href="http://www.itbbb.com" target="_blank">www.itbbb.com</a></p>
+        </div>
+    </div>
+
+    <div class="tip" style="top: 250px; left: 300px;">
+        <div class="tips_arrow lt">
+            <em>◆</em>
+            <span>◆</span>
+        </div>
+        <div class="content">
+            <h1>箭头向下</h1>
+            <a href="javascript:;" class="close">×</a>
+            <p>欢迎访问<a href="http://www.itbbb.com" target="_blank">www.itbbb.com</a></p>
+        </div>
+    </div>
+
+
+    <button id="event_alert">对话框</button>
+    <div class="_tips" title="标题" message="提示文字">测试文字</div>
+    <script src="http://code.jquery.com/jquery.min.js"></script>    <script src="Changes.js"></script>
+    <script>
+
+        $("#event_alert").click(function () {
+            new Changes.dialog({
+                title: "测试", message: "内容是这样的内容是这样的内容是这样的内容是这样的内容是这样的内容是这样的内容是这样的内容是这样的内容是这样的内容是这样的内容是这样的",
+                buttons: {
+                    "确定": function () {
+                        new Changes.dialog({
+                            message: "YES!", buttons: {
+                                "ok": function () {
+                                    new Changes.dialog({ message: "Last!" }).show();
+                                }
+                            }
+                        }).show(false);
+                    }
+                }
+                //, model: true
+                , animate: "fadeIn"
+                // ,locations: { top: 10, left: 30 }
+            }).show();
+        });
+
+        $("._tips").Tip();
+
+    </script>
+    <div style="display: none;">
+        <script type="text/javascript">
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F665ed821ce0c947e5ccb95d1dbed69a8' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script src="http://s23.cnzz.com/stat.php?id=5816290&web_id=5816290" language="JavaScript"></script>
+        <script type="text/javascript"> (function (win, doc) { var s = doc.createElement("script"), h = doc.getElementsByTagName("head")[0]; if (!win.alimamatk_show) { s.charset = "gbk"; s.async = true; s.src = "http://a.alimama.cn/tkapi.js"; h.insertBefore(s, h.firstChild); }; var o = { pid: "mm_41996866_5614231_21104132",/*推广单元ID,用于区分不同的推广渠道*/ appkey: "",/*通过TOP平台申请的appkey,设置后引导成交会关联appkey*/ unid: ""/*自定义统计字段*/ }; win.alimamatk_onload = win.alimamatk_onload || []; win.alimamatk_onload.push(o); })(window, document);</script>
+    </div>
+</body>
+</html>

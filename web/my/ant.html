@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>蚂蚁过桥|www.itbbb.com</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="stylesheet" type="text/css" href="http://www.itbbb.com/jsfunction/bootstrap/css/bootstrap.min.css">
+<style type="text/css">
+	.anwser{margin-top: 20px; padding: 5px; border: 1px #000 solid;border-radius: 10px;}
+	.bridge{height: 60px;padding: 10px 4px; position: relative;}
+	.bridge div{float: left;display: block; width: 40px;height: 40px;border: 1px #ccc dotted;}
+	.bridge_contorl button{margin: 5px 0;}
+	.ant,.ant_abs{background: yellow; width: 40px;height: 40px;line-height: 40px;text-align: center;}
+	.ant_abs{ position: absolute;}
+	.antclass0{background:green;color: #fff;}
+	.antclass1{background:yellow;}
+	.situation{margin: 20px 5px; padding: 5px; border: 1px #000 solid;height: 90px;width: 212px;float: left;}
+	.situation div{float: left;display: block; width: 40px;height: 40px; line-height: 40px;text-align: center; border: 1px #ccc dotted;}
+	.situation .describe{clear: both;padding: 10px 2px;}
+	.situation .describe button{margin: 0 4px;}
+	.situationlong{border: 1px red solid;background: #ccc}
+	.situationshort{border: 1px blue solid;background: #FDEFA0}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="well well-lg">
+<h4>蚂蚁过桥问题</h4>百度面试题动画模拟源码，来自<a href="http://www.itbbb.com#ant" target="_blank">北北</a>，深入探讨此问题，请访问我的博客<a href="http://www.itbbb.com/index.php/ant-bridge/" target="_blank">ITbbb</a><br>
+有一根27厘米的细木杆，在第3厘米、7厘米、11厘米、17厘米、23厘米这五个位置上各有一只蚂蚁。木杆很细，不能同时通过一只蚂蚁。开始时，蚂蚁的头朝左还是朝右是任意的，它们只会朝前走或调头，但不会后退。当任意两只蚂蚁碰头时，两只蚂蚁会同时调头朝反方向走。假设蚂蚁们每秒钟可以走一厘米的距离。编写程序，求所有蚂蚁都离开木杆的最小时间和最大时间。</div>
+
+<div class="anwser">
+<div class="bridge">
+	<!--<div class="ant">蚁1-L</div>-->
+</div>
+</div>
+<div class="bridge_contorl">
+	<div class="btn-group">
+      <button type="button" data-speed="1000" class="event_speed btn btn-default">低速</button>
+      <button type="button" data-speed="200" class="event_speed btn btn-default active">中速</button>
+      <button type="button" data-speed="50" class="event_speed btn btn-default">高速</button>
+    </div>
+ 结果：<span id="result"></span></div>
+<div id="situations">
+	<!-- <div class="situation">
+	<div>1-左</div><div></div><div></div><div></div><div></div>
+	<p class="describe">1.用时14秒<button>就位</button><button>模拟</button></p>
+	</div> -->
+</div>
+</div>
+	<script type='text/javascript' src='http://code.jquery.com/jquery.min.js?ver=3.8.4'></script>
+    <script type="text/javascript">
+ 	$(function() {
+ 		//方向枚举
+ 		var DirectionEnum = {
+ 			Right: 0,
+ 			Left: 1
+ 		};
+ 		//桥构造
+ 		var AntBridge = function() {
+ 			var self = this;
+ 			this.bridgewidth = 27; //桥长
+ 			this.directions = [1, 2, 4, 8, 16];
+ 			this.antposition = [3, 7, 11, 17, 23]; //蚂蚁位置
+ 			this.bridge = $(".bridge");
+ 			this.situations = $("#situations");
+ 			this.speed = 200;
+ 			this.timesign = null,
+ 			//清理计时器
+ 			this.clearTime = function() {
+ 				if (self.timesign) {
+ 					clearInterval(self.timesign);
+ 					self.timesign = null;
+ 				}
+ 			},
+ 			//初始化
+ 			this.Init = function() {
+ 				var bridgehtml = "",
+ 					longest = 0,
+ 					shortest = Number.MAX_VALUE;
+ 				for (var i = 0; i < self.bridgewidth; i++) {
+ 					bridgehtml += '<div>' + (i + 1) + '</div>';
+ 				}
+ 				self.bridge.append(bridgehtml);
+
+ 				//初始化蚂蚁
+ 				var count = Math.pow(2, 5),
+ 					longindex = 0,
+ 					shortindex = 0;
+ 				//count = 1; //test
+ 				for (var m = 0; m < count; m++) {
+ 					var _directions = self.getDirection(m),
+ 						longdir, shortdir;
+ 					//_directions = [1, 1, 1, 0, 0]; //test
+ 					var con = new self.Control(_directions, m);
+
+ 					//开始爬行
+ 					var time = con.start();
+ 					//标记耗时
+ 					if (time > longest) {
+ 						longest = time;
+ 						longdir = _directions;
+ 						longindex = m;
+ 					}
+ 					if (time < shortest) {
+ 						shortest = time;
+ 						shortdir = _directions;
+ 						shortindex = m;
+ 					}
+ 				}
+ 				$(".situation").eq(longindex).addClass("situationlong");
+ 				$(".situation").eq(shortindex).addClass("situationshort");
+
+ 				$("#result").html("最短时间:" + shortest + "s [第" + (shortindex + 1) + "种情况]|最长时间:" + longest + "s [第" + (longindex + 1) + "种情况]");
+ 				console.log("最短时间:" + shortest + "[" + shortdir + "]|最长时间" + longest + "[" + longdir + "]");
+
+ 				this.Event();
+ 			}
+ 			//事件注册
+ 			this.Event = function() {
+ 				//就位
+ 				self.situations.on("click", ".event_ant_ready", function() {
+ 					$(".ant_abs").remove();
+ 					//清理时间
+ 					self.clearTime();
+ 					$(".event_ant_go").attr({
+ 						disabled: 'disabled'
+ 					});
+ 					var _this = $(this),
+ 						_situation = _this.parents(".situation"),
+ 						btn_go = _situation.find(".event_ant_go"),
+ 						_ants = _situation.children(".ant"),
+ 						// _antclass = _ants.attr("dir"),
+ 						len = _ants.length;
+ 					for (var i = 0; i < len; i++) {
+ 						//console.log($(_ants[i]).html());
+ 						self.bridge.append('<div id="ant_' + i + '" class="ant_abs antclass' + _ants.eq(i).attr("dir") + '" style="left:' + (4 + (40 * (self.antposition[i] - 1))) + 'px;">' + _ants.eq(i).html() + '</div>');
+ 					}
+ 					btn_go.removeAttr('disabled');
+ 				});
+ 				//移动
+ 				self.situations.on("click", ".event_ant_go", function() {
+ 					//var _ants = $(".ant_abs");
+ 					var _this = $(this),
+ 						_situation = _this.parents(".situation"),
+ 						index = _situation.index(),
+ 						_usetime = _situation.find(".usetime");
+ 					// console.log(index);
+ 					// self.timesign = setInterval(function() {
+ 					//装载一个特定的Control
+ 					var con = new self.Control(self.getDirection(index), index, true);
+ 					var t = con.start(_usetime);
+ 					//_usetime.html(t);
+ 					// }, self.speed);
+ 				});
+ 				//速度控制器
+ 				$(".event_speed").click(function() {
+ 					var _this = $(this);
+ 					_this.addClass('active').siblings().removeClass('active');
+ 					self.speed = _this.data("speed");
+ 				});
+ 			}
+ 			//执行器
+ 			this.Control = function(_directions, _n, _f) {
+ 				var conself = this;
+ 				this.ants = []; //蚂蚁队列
+ 				this.antnum = 5; //蚂蚁数量
+ 				this.timer = 0; //计时
+				//构造html
+				var _html = '<div class="situation">';
+				for (var j = 0; j < self.antposition.length; j++) {
+					var _antname = j, //(j + 1) + "-" + (_directions[j] == 0 ? "右" : "左"),
+						_ant = new Ant(self.antposition[j], _directions[j], _antname, _f);
+					conself.ants.push(_ant);
+					_html += '<div dir="' + _ant.direction + '" class="ant antclass' + _ant.direction + '">' + _ant.name + '</div>';
+				}
+				_html += '<p class="describe"><span class="dec_num">' + (_n + 1) + '</span>.用时<span class="usetime">??</span>秒<button class="btn btn-default btn-sm event_ant_ready">就位</button><button disabled="disabled" class="btn btn-primary btn-sm event_ant_go">模拟</button></p></div>';
+				if (!_f) {
+					self.situations.append(_html);
+				}
+ 				this.start = !_f ? function() {
+ 					while (conself.antnum > 0) {
+ 						conself.moveAnts();
+ 						conself.needShift();
+ 						conself.timer++;
+ 						conself.analyzeAntStatus();
+ 						console.log("第" + this.timer + "秒");
+ 					}
+ 					//self.clearTime();
+ 					return conself.timer;
+ 				} : function(dom) {
+ 					self.timesign = setInterval(function() {
+ 						if (conself.antnum > 0) {
+ 							conself.moveAnts();
+ 							conself.needShift();
+ 							conself.timer++;
+ 							conself.analyzeAntStatus();
+ 							dom.html(conself.timer);
+ 							//console.log("第" + conself.timer + "秒");
+ 						} else {
+ 							self.clearTime();
+ 						}
+ 						return conself.timer;
+ 					}, self.speed);
+ 				}
+ 				//蚂蚁移动
+ 				this.moveAnts = function() {
+ 					for (var i = 0; i < this.ants.length; i++) {
+ 						var currant = this.ants[i];
+ 						if (currant.live) {
+ 							currant.go();
+ 							console.log(currant.name + ":" + currant.position);
+ 						}
+ 					}
+ 				}
+
+ 				//判断下一步是否要调头
+ 				this.needShift = function() {
+ 					var a1, a2, len = this.ants.length;
+ 					for (var i = 0; i < len; i++) {
+ 						for (var j = i + 1; j < len; j++) {
+ 							if (this.ants[i].position == this.ants[j].position) {
+ 								this.ants[i].shift();
+ 								this.ants[j].shift();
+ 							}
+ 						}
+ 					}
+ 				}
+ 				//状态分析
+ 				this.analyzeAntStatus = function() {
+ 					for (var i = 0; i < this.ants.length; i++) {
+ 						var currant = this.ants[i];
+ 						//判断是否出去了
+ 						if (currant.position >= 27 || currant.position <= 0) {
+ 							// console.log(currant.position);
+ 							currant.live = false;
+ 							this.antnum--;
+ 							//this.ants.shift(currant);
+ 							var index = this.ants.indexOf(currant),
+ 								antdom = $("#ant_" + currant.antnum);
+ 							if (index >= 0) {
+ 								this.ants.splice(index, 1);
+ 							}
+ 							if (antdom.length) {
+ 								if (currant.position == 27) {
+ 									setTimeout(function() {
+ 										antdom.remove();
+ 									}, self.speed);
+ 								} else {
+ 									antdom.remove();
+ 								}
+ 							}
+ 						}
+ 					}
+ 				}
+
+ 				return this;
+ 			}
+ 			//获取蚂蚁方向队列
+ 			this.getDirection = function(num) {
+ 				var len = self.directions.length,
+ 					dirs = [];
+ 				for (var i = 0; i < len; i++) {
+ 					if ((self.directions[i] & num) == 0)
+ 						dirs[i] = DirectionEnum.Left;
+ 					else
+ 						dirs[i] = DirectionEnum.Right;
+ 					//console.log(dirs[i]);
+ 				}
+ 				//console.log("----");
+ 				return dirs;
+ 			}
+
+ 		};
+ 		//蚂蚁建模
+ 		var Ant = function(p, dir, n, f) {
+ 			this.antnum = n; //蚂蚁编号
+ 			this.position = p; //蚂蚁位置
+ 			this.direction = dir; //蚂蚁方向
+ 			this.live = true; //蚂蚁存亡
+ 			this.name = (n + 1) + "-" + (dir == 0 ? "右" : "左"); //蚂蚁名字
+ 			//this.flash = f;
+ 			this.antHtml = $("#ant_" + n); //蚂蚁dom对象
+ 			//爬
+ 			this.go = function() {
+ 				if (this.direction == DirectionEnum.Right) {
+ 					this.position++;
+ 				} else {
+ 					this.position--;
+ 				}
+ 				if (f) {
+ 					this.antHtml.css({
+ 						left: (4 + (40 * (this.position - 1))) + 'px'
+ 					});
+ 				}
+ 			};
+ 			//相撞后调头
+ 			this.shift = function() {
+ 				this.direction = (this.direction == DirectionEnum.Left) ? DirectionEnum.Right : DirectionEnum.Left;
+ 				if (f) {
+ 					if (this.direction == DirectionEnum.Right) {
+ 						this.antHtml.removeClass('antclass1').addClass('antclass0').html((n + 1) + "-右");
+ 					} else {
+ 						this.antHtml.removeClass('antclass0').addClass('antclass1').html((n + 1) + "-左");
+ 					}
+ 					this.antHtml.html((n + 1) + "-" + (this.direction == 0 ? "右" : "左"));
+ 				}
+ 			};
+ 		}
+ 		new AntBridge({}).Init();
+
+ 	});
+    </script>
+    <div style="display: none;">
+        <script src="http://s23.cnzz.com/stat.php?id=5816290&web_id=5816290" language="JavaScript"></script>
+    </div>
+</body>
+</html>

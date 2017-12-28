@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>www.itbbb.com-jQueryRotate圆盘抽奖插件</title>
+    <style type="text/css">
+        *
+        {
+            padding: 0;
+            margin: 0;
+        }
+
+        body
+        {
+            text-align: center;
+            background-color: #1664ad;
+        }
+
+        .ly-plate
+        {
+            position: relative;
+            width: 509px;
+            height: 509px;
+            margin: 50px auto;
+        }
+
+        .rotate-bg
+        {
+            width: 509px;
+            height: 509px;
+            background: url(ly-plate.png);
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin-top: 0%;
+        }
+
+        .ly-plate div.lottery-star
+        {
+            width: 214px;
+            height: 214px;
+            position: absolute;
+            top: 150px;
+            left: 147px;
+            /*text-indent:-999em;
+	overflow:hidden;
+	background:url(rotate-static.png);
+	-webkit-transform:rotate(0deg);*/
+            outline: none;
+        }
+
+            .ly-plate div.lottery-star #lotteryBtn
+            {
+                cursor: pointer;
+                position: absolute;
+                top: 0;
+                left: 0;
+                *left: -107px;
+            }
+    </style>
+</head>
+<body>
+    <div >
+        <a href="http://www.itbbb.com/" target="_blank" style="color:white;">官方网站-IT北北报</a>
+        <a href="http://www.itbbb.com/my/getprize/prize.rar" target="_blank" style="color:white;">下载源码</a>
+    </div>
+    <div class="ly-plate">
+        <div class="rotate-bg"></div>
+        <div class="lottery-star">
+            <img src="rotate-static.png" id="btn_prize">
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jQueryRotate.2.2.js"></script>
+    <script type="text/javascript" src="js/jquery.easing.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            //抽奖类封装
+            var Lottery = {
+                _this: $("#btn_prize"),//抽奖按钮
+                ing: false,
+                lotteryNumber: 0,
+                prize: 0,
+                //从服务端获取抽奖次数
+                getLotteryNumber: function () {
+                    //$.ajax({});
+                    this.lotteryNumber = 3;//这里模拟获得了3次
+                },
+                //设置抽奖次数
+                addLotteryNumber: function (num) { this.lotteryNumber += num; },
+                setLotteryNumber: function (num) { this.lotteryNumber = num; },
+                //抽奖校验
+                lotteryCheck: function () {
+                    //是否登录
+                    //是否正在抽奖
+                    if (this.ing) {
+                        return false;
+                    }
+                    //是否可以抽奖
+                    this.getLotteryNumber();
+                    if (this.lotteryNumber > 0) {
+                        this.ing = true;
+                        return true;
+                    }
+                    else {
+                        alert("没有抽奖次数了")
+                    }
+                    return false;
+                },
+                //异步请求获取奖品
+                getPrize: function () {
+                    //$.ajax({});
+                    //模拟随机数 1~8
+                    var r = Math.floor(Math.random() * 8 + 1);
+                    //设定奖品总数为8个格子
+                    var prize = { total: 8, myprize: r },
+                     everyrotate = 360 / prize.total,
+                     everymiddle = everyrotate / 2;
+
+                    var p = {
+                        prize: prize.myprize,
+                        angle: prize.myprize * everyrotate - everymiddle,
+                        text: "中" + prize.myprize + "等奖啦"
+                    };
+
+                    //业务逻辑开始，可注释/*
+                    if (r == 1) {
+                        p.text = "抽中三等奖";
+                    }
+                    else if (r == 4) {
+                        p.text = "抽中一等奖";
+                    }
+                    else if (r == 6) {
+                        p.text = "抽中二等奖";
+                    }
+                    else {
+                        p.text = "再接再厉！";
+                    }
+                    //业务逻辑结束
+                    //*/
+                    return p;
+                },
+                rotateFunc: function (p) {
+                    var _t = this;
+                    _t._this.stopRotate();
+                    _t._this.rotate({
+                        angle: 0,
+                        duration: 5000,
+                        animateTo: p.angle + 1440, //angle是图片上各奖项对应的角度，1440是我要让指针旋转4圈。所以最后的结束的角度就是这样子^^
+                        callback: function (e) {
+                            alert(p.text);
+                            _t.ing = false;
+                        }
+                    });
+                },
+                //开始抽奖
+                lotteryStart: function () {
+                    //验证
+                    if (!this.lotteryCheck())
+                        return;
+                    //获取奖品
+                    var _p = this.getPrize();
+                    //减少次数
+                    this.addLotteryNumber(-1);
+                    //指针旋转
+                    this.rotateFunc(_p);
+                }
+            }
+            var getLotteryNumber = function () {
+                return 10;
+            }
+
+
+            Lottery._this.rotate({
+                bind:
+                  {
+                      click: function () {
+                          Lottery.lotteryStart();
+                      }
+                  }
+            });
+
+        });
+    </script>
+<div style="display: none;">
+        <script type="text/javascript">
+            var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+            document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F665ed821ce0c947e5ccb95d1dbed69a8' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script src="http://s23.cnzz.com/stat.php?id=5816290&web_id=5816290" language="JavaScript"></script>
+        <script type="text/javascript"> (function (win, doc) { var s = doc.createElement("script"), h = doc.getElementsByTagName("head")[0]; if (!win.alimamatk_show) { s.charset = "gbk"; s.async = true; s.src = "http://a.alimama.cn/tkapi.js"; h.insertBefore(s, h.firstChild); }; var o = { pid: "mm_41996866_5614231_21104132",/*推广单元ID,用于区分不同的推广渠道*/ appkey: "",/*通过TOP平台申请的appkey,设置后引导成交会关联appkey*/ unid: ""/*自定义统计字段*/ }; win.alimamatk_onload = win.alimamatk_onload || []; win.alimamatk_onload.push(o); })(window, document);</script>
+    </div>
+
+</body>
+</html>
